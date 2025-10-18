@@ -2,19 +2,14 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import styles from "./style";
-
-// Define a type for your navigation stack parameters
-type RootStackParamList = {
-  OnBoarding: undefined;
-  LoginScreen: undefined; // The screen you want to navigate to after onboarding
-};
+import { RootStackParamList } from "src/Navigation/type";
 
 const OnBoarding: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handlePress = () => {
     // Navigate to your main application screen, for example, "MainApp"
-    navigation.navigate("LoginScreen");
+    navigation.navigate("Auth");
   };
 
   return (

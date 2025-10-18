@@ -1,5 +1,4 @@
-// LoginScreen.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,75 +6,105 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Image,
 } from "react-native";
-// NOTE: For icons, you would typically use a library like 'react-native-vector-icons'.
-// We are using mock components here for illustration.
-// import { Ionicons } from '@expo/vector-icons';
-
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import styles from "./style";
-import SignupScreen from "../SignUp/SignUpScreen";
+import { AuthStackParamList, RootStackParamList } from "src/Navigation/type";
 
-// Define a type for your navigation stack parameters
-type RootStackParamList = {
-  SignupScreen: undefined;
-};
-
-// Mock Icon components for demonstration purposes
-const MockEyeIcon = ({ onPress, isSecure }) => (
+// Mock Eye Icon for password toggle
+const MockEyeIcon = ({
+  onPress,
+  isSecure,
+}: {
+  onPress: () => void;
+  isSecure: boolean;
+}) => (
   <Text
     onPress={onPress}
-    style={{ color: styles.inputFocused.borderColor, fontSize: 20 }}
+    style={{
+      color: styles.inputFocused.borderColor,
+      fontSize: 20,
+      paddingHorizontal: 5,
+    }}
   >
     {isSecure ? "👁️" : "🔒"}
   </Text>
 );
-const MockGoogleIcon = () => <Text style={{ fontSize: 20 }}>G</Text>;
+
+// Mock Checkbox component
+const MockCheckbox = ({
+  isChecked,
+  onPress,
+}: {
+  isChecked: boolean;
+  onPress: () => void;
+}) => (
+  <TouchableOpacity
+    style={[
+      styles.checkboxPlaceholder,
+      isChecked && { backgroundColor: styles.checkboxPlaceholder.borderColor },
+    ]}
+    onPress={onPress}
+  >
+    {isChecked && <Text style={{ color: "white", fontSize: 16 }}>✓</Text>}
+  </TouchableOpacity>
+);
 
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-  // State to handle input focus for modern styling
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+  // Example: Safe navigation after render (if you need to redirect)
+  useEffect(() => {
+    // For example, if user is already logged in
+    // navigation.navigate("MainApp");
+  }, []);
+
   const handleLogin = () => {
-    navigation.navigate(SignupScreen);
-    // Implement your authentication logic here
-    console.log(`Logging in with: ${email} and ${password}`);
-    // On success:
+    console.log(`Logging in with: ${email}, remember me: ${rememberMe}`);
+    // Perform your login logic, then navigate
     // navigation.navigate("MainApp");
   };
 
-  const handleGoogleLogin = () => {
-    // Implement Google OAuth logic here
-    console.log("Starting Google OAuth process...");
-  };
+  const navigateToSignup = () => navigation.navigate("SignupScreen");
+  const navigateToForgotPassword = () => navigation.navigate("SignupScreen");
+
+  const handleGoogleLogin = () => console.log("Google login clicked");
+  const handleAppleLogin = () => console.log("Apple login clicked");
+  const handleFacebookLogin = () => console.log("Facebook login clicked");
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
-        {/* Header */}
-        <Text style={styles.header}>Welcome Back</Text>
-        <Text style={styles.subtitle}>
-          Sign in to pick up where you left off.
-        </Text>
+        {/* Logo */}
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("../../../assets/todo_logo.png")}
+            style={styles.logoImage}
+          />
+          <Text style={styles.brandingText}>REXODUS GAMING</Text>
+        </View>
 
-        {/* --- Email Input --- */}
+        {/* Header */}
+        <Text style={styles.header}>Welcome Back!</Text>
+        <Text style={styles.subtitle}>Let's login to continue</Text>
+
+        {/* Email Input */}
         <View
-          style={[
-            styles.inputContainer,
-            isEmailFocused && styles.inputFocused, // Apply focus style if true
-          ]}
+          style={[styles.inputContainer, isEmailFocused && styles.inputFocused]}
         >
           <TextInput
             style={styles.input}
-            placeholder="Email Address"
+            placeholder="Email or Phone Number"
             placeholderTextColor="#AAAAAA"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -86,11 +115,11 @@ const LoginScreen: React.FC = () => {
           />
         </View>
 
-        {/* --- Password Input --- */}
+        {/* Password Input */}
         <View
           style={[
             styles.inputContainer,
-            isPasswordFocused && styles.inputFocused, // Apply focus style if true
+            isPasswordFocused && styles.inputFocused,
           ]}
         >
           <TextInput
@@ -109,26 +138,59 @@ const LoginScreen: React.FC = () => {
           />
         </View>
 
-        {/* --- Primary Login Button --- */}
+        {/* Remember Me & Forgot Password */}
+        <View style={styles.optionsRow}>
+          <TouchableOpacity
+            style={styles.rememberMe}
+            onPress={() => setRememberMe(!rememberMe)}
+          >
+            <MockCheckbox
+              isChecked={rememberMe}
+              onPress={() => setRememberMe(!rememberMe)}
+            />
+            <Text style={styles.checkboxText}>Remember me</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={navigateToForgotPassword}>
+            <Text style={styles.forgotPasswordText}>Forgot password</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Sign In Button */}
         <TouchableOpacity style={styles.primaryButton} onPress={handleLogin}>
           <Text style={styles.primaryButtonText}>Sign In</Text>
         </TouchableOpacity>
 
-        {/* --- Separator --- */}
-        <View style={styles.separatorContainer}>
-          <View style={styles.separatorLine} />
-          <Text style={styles.separatorText}>OR</Text>
-          <View style={styles.separatorLine} />
+        {/* Social Login */}
+        <Text style={styles.socialHeader}>Or connect with</Text>
+        <View style={styles.socialButtonsContainer}>
+          <TouchableOpacity
+            style={styles.socialIcon}
+            onPress={handleGoogleLogin}
+          >
+            <Text style={styles.socialIconText}>G</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.socialIcon}
+            onPress={handleAppleLogin}
+          >
+            <Text style={styles.socialIconText}></Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.socialIcon}
+            onPress={handleFacebookLogin}
+          >
+            <Text style={styles.socialIconText}>f</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* --- Google OAuth Button --- */}
-        <TouchableOpacity
-          style={styles.googleButton}
-          onPress={handleGoogleLogin}
-        >
-          <MockGoogleIcon />
-          <Text style={styles.googleButtonText}>Sign In with Google</Text>
-        </TouchableOpacity>
+        {/* Footer */}
+        <Text style={styles.footerText}>
+          Don't have an account?{" "}
+          <Text style={styles.footerLink} onPress={navigateToSignup}>
+            Sign up here
+          </Text>
+        </Text>
       </View>
     </SafeAreaView>
   );

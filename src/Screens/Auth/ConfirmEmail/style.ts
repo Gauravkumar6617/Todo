@@ -1,23 +1,24 @@
 import { StyleSheet } from "react-native";
-// Assuming PRIMARY_COLOR and Dimensions are imported from the correct path
-import { PRIMARY_COLOR } from "src/constant/Color";
-import { SCREEN_HEIGHT } from "src/constant/Dimensions";
+// NOTE: Assuming PRIMARY_COLOR and Dimensions are imported from the correct path
+// Replace these with your actual import paths if different
+const PRIMARY_COLOR = "#6495ED"; // Calm Blue (used for general theme accents/links)
+const SCREEN_HEIGHT = 812; // Placeholder, usually imported from Dimensions
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 25,
-    paddingTop: SCREEN_HEIGHT * 0.1,
+    paddingTop: SCREEN_HEIGHT * 0.08,
   },
 
   // --- Logo/Branding Styles ---
   logoContainer: {
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   logoImage: {
-    width: 60, // Fixed size for the REXODUS icon
+    width: 60,
     height: 60,
     resizeMode: "contain",
     marginBottom: 5,
@@ -30,18 +31,18 @@ const styles = StyleSheet.create({
   // --- End Logo/Branding Styles ---
 
   header: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "900",
     color: "#333333",
-    marginBottom: 5, // Reduced margin
+    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#666666",
-    marginBottom: 20, // Reduced margin
+    marginBottom: 30,
   },
 
-  // --- Input Styles ---
+  // --- Input Styles (Standard clean input) ---
   inputContainer: {
     marginBottom: 20,
     borderWidth: 1,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     height: 55,
   },
   inputFocused: {
-    borderColor: PRIMARY_COLOR,
+    borderColor: PRIMARY_COLOR, // Using PRIMARY_COLOR for focus effect
   },
   input: {
     flex: 1,
@@ -61,13 +62,22 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
 
-  // --- Remember Me & Forgot Password ---
+  // --- Illustration Image (Used on Signup Email Screen) ---
+  illustrationImage: {
+    width: "100%",
+    height: SCREEN_HEIGHT * 0.25,
+    resizeMode: "contain",
+    marginBottom: 30,
+    alignSelf: "center",
+  },
+
+  // --- Remember Me & Forgot Password (Used on Login Screen) ---
   optionsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
-    marginTop: -10, // Pull it up closer to the password field
+    marginTop: -10,
   },
   rememberMe: {
     flexDirection: "row",
@@ -94,16 +104,17 @@ const styles = StyleSheet.create({
   },
   // --- End Options Row ---
 
-  // --- Primary Button Styles (Sign In) ---
+  // --- Primary Action Button (Red for Sign Up Flow, Blue for Login) ---
   primaryButton: {
-    backgroundColor: "#83a4d4", // Using the bright red/pink color from the image
+    // Using a fixed red color for "Continue"/"Sign Up" button as per your latest design image
+    backgroundColor: PRIMARY_COLOR,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 30, // Increased margin for spacing
-    elevation: 5, // Subtle shadow for the button
-    shadowColor: "#83a4d4",
+    marginTop: 20,
+    marginBottom: 20,
+    elevation: 5,
+    shadowColor: PRIMARY_COLOR,
     shadowOpacity: 0.4,
     shadowRadius: 10,
     shadowOffset: { height: 5, width: 0 },
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  // --- Social Login/Separator Styles ---
+  // --- Social Login/Separator Styles (Used on Login Screen) ---
   socialHeader: {
     textAlign: "center",
     color: "#666666",
@@ -123,7 +134,7 @@ const styles = StyleSheet.create({
   socialButtonsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 15, // Spacing between buttons
+    gap: 15,
     marginBottom: 30,
   },
   socialIcon: {
@@ -135,12 +146,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // We'll use large emojis/text for the social icons for simplicity
   socialIconText: {
     fontSize: 24,
   },
 
-  // --- Footer/Navigation Link ---
+  // --- Footer Link to Login/Signup ---
   footerText: {
     marginTop: 20,
     textAlign: "center",
@@ -148,9 +158,11 @@ const styles = StyleSheet.create({
     color: "#666666",
   },
   footerLink: {
-    color: PRIMARY_COLOR,
+    color: PRIMARY_COLOR, // Using PRIMARY_COLOR for the link text
     fontWeight: "bold",
   },
 });
+
+// NOTE: OTP-specific styles were kept within ConfirmEmailScreen.tsx for modularity.
 
 export default styles;

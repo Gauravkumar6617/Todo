@@ -1,6 +1,6 @@
 // style.ts
 import { StyleSheet } from "react-native";
-import { PRIMARY_COLOR } from "./../../constant/Color";
+import { PRIMARY_COLOR } from "../../constant/Color";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "src/constant/Dimensions";
 
 const styles = StyleSheet.create({
